@@ -1,6 +1,7 @@
 package com.socoolheeya.travel.domain.rds.main.property.entity;
 
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
+import com.socoolheeya.travel.domain.rds.main.property.domain.PropertyImage;
 import com.socoolheeya.travel.system.core.enums.PropertyEnums;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.springframework.transaction.annotation.Transactional;
 
 @Getter
 @Entity
@@ -69,6 +71,15 @@ public class PropertyImageEntity extends BaseEntity {
     @Builder
     public PropertyImageEntity(Long id, String name, String path, Integer sequence, PropertyEnums.ImageType type) {
         this(id, name, path, sequence, type, null);
+    }
+
+    @Transactional
+    public void updatePropertyImage(PropertyImage propertyImage) {
+        this.id = propertyImage.id();
+        this.name = propertyImage.name();
+        this.type = propertyImage.type();
+        this.path = propertyImage.path();
+        this.sequence = propertyImage.sequence();
     }
 
 }

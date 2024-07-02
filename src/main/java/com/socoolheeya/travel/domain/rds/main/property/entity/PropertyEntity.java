@@ -2,10 +2,12 @@ package com.socoolheeya.travel.domain.rds.main.property.entity;
 
 import com.socoolheeya.travel.domain.rds.common.converter.BooleanToStringConverter;
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
-import jakarta.persistence.CascadeType;
+import com.socoolheeya.travel.system.core.enums.PropertyEnums;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -46,14 +48,18 @@ public class PropertyEntity extends BaseEntity {
     @Column(columnDefinition = "text comment '시설 설명(KR)'")
     String description;
 
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(20) comment '별점'")
+    PropertyEnums.Star star;
+
     @Convert(converter = BooleanToStringConverter.class)
     @Column(columnDefinition = "char(1) comment '사용 여부'")
-    Boolean isEnabled = true;
+    Boolean isActive = true;
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property")
     Set<PropertyTranslationEntity> translations = new HashSet<>();
 
-    @OneToMany(mappedBy = "property", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property")
     List<PropertyImageEntity> images = new ArrayList<>();
 
     @OneToOne(mappedBy = "property", fetch = FetchType.LAZY)
@@ -65,18 +71,18 @@ public class PropertyEntity extends BaseEntity {
     @OneToOne(mappedBy = "property", fetch = FetchType.LAZY)
     PropertyLocationEntity location;
 
-    @OneToMany(mappedBy = "property", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "property", orphanRemoval = true)
     List<PropertyContractEntity> propertyContracts = new ArrayList<>();
 
-    @OneToOne(mappedBy = "property", orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "property", orphanRemoval = true)
     PropertySupplierEntity propertySupplier;
 
     @Builder
-    public PropertyEntity(Long id, String name, String description, Boolean isEnabled) {
+    public PropertyEntity(Long id, String name, String description, Boolean isActive) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.isEnabled = isEnabled;
+        this.isActive = isActive;
         this.images = null;
         this.address = null;
         this.contact = null;
@@ -85,7 +91,7 @@ public class PropertyEntity extends BaseEntity {
 
     @Transactional
     public void inActive() {
-        this.isEnabled = false;
+        this.isActive = false;
     }
 
 }

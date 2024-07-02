@@ -2,10 +2,15 @@ package com.socoolheeya.travel.domain.rds.main.property.entity;
 
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -32,20 +37,23 @@ public class PropertyHistoryEntity extends BaseEntity {
 
     @NotNull
     @Column(columnDefinition = "varchar(500) comment '시설명(KR)'")
-    String koName;
+    String name;
 
-    @Column(columnDefinition = "varchar(500) comment '시설명(EN)'")
-    String enName;
+    @Column(columnDefinition = "text comment '시설 설명(KR)'")
+    String description;
 
     @Column(columnDefinition = "bool comment '사용 여부'")
-    Boolean isEnabled = true;
+    Boolean isActive = true;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    PropertyEntity property;
 
     @Builder
-    public PropertyHistoryEntity(Long id, Long propertyId, String koName, String enName, Boolean isEnabled) {
+    public PropertyHistoryEntity(Long id, Long propertyId, String name, Boolean isActive) {
         this.id = id;
         this.propertyId = propertyId;
-        this.koName = koName;
-        this.enName = enName;
-        this.isEnabled = isEnabled;
+        this.name = name;
+        this.isActive = isActive;
     }
 }

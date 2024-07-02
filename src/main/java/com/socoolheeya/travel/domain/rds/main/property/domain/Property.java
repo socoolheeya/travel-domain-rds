@@ -1,8 +1,6 @@
 package com.socoolheeya.travel.domain.rds.main.property.domain;
 
-import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyContractEntity;
-import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyLocationEntity;
-import com.socoolheeya.travel.domain.rds.main.property.entity.PropertySupplierEntity;
+import com.socoolheeya.travel.system.core.enums.PropertyEnums;
 import lombok.Builder;
 
 import java.util.ArrayList;
@@ -11,18 +9,20 @@ import java.util.List;
 @Builder
 public record Property(
         Long id,
-        String koName,
-        String enName,
-        Boolean isEnabled,
+        String name,
+        String description,
+        PropertyEnums.Star star,
+        Boolean isActive,
         List<PropertyImage> images,
         PropertyAddress address,
         PropertyContact contact,
-        PropertyLocationEntity location,
-        List<PropertyContractEntity> propertyContracts,
-        PropertySupplierEntity propertySupplier
+        PropertyLocation location,
+        List<PropertyContract> propertyContracts,
+        PropertySupplier propertySupplier,
+        List<PropertyTranslation> propertyTranslations
 ) {
     public Property {
-        isEnabled = true;
+        isActive = true;
         images = new ArrayList<>();
         propertyContracts = new ArrayList<>();
     }
