@@ -23,7 +23,7 @@ spring:
       minimum-idle: 3
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     generate-ddl: true
     open-in-view: false
@@ -31,13 +31,6 @@ spring:
       hibernate:
         ejb:
           use_class_enhancer: false
-        envers:
-          track_entities_changed_in_revision: true
-          audit_table_suffix: _history
-          revision_field_name: revision_id
-          revision_type_field_name: revision_type
-          store_data_at_delete: true
-          modified_flag_suffix: _changed
         format_sql: true
         show_sql: true
         hbm2ddl:
