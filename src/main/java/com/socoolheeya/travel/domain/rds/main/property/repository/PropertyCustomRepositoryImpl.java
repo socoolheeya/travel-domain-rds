@@ -11,7 +11,6 @@ import com.socoolheeya.travel.domain.rds.main.property.entity.QPropertySupplierE
 import com.socoolheeya.travel.domain.rds.main.property.entity.QPropertyTranslationEntity;
 import com.socoolheeya.travel.domain.rds.main.property.repository.support.PropertyQueryHelper;
 import com.socoolheeya.travel.domain.rds.main.property.repository.support.PropertySpecifier;
-import com.socoolheeya.travel.domain.rds.main.supplier.entity.QSupplierEntity;
 import com.socoolheeya.travel.system.core.model.param.PropertySearchCriteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PropertyCustomRepositoryImpl implements PropertyCustomRepository {
 
-    private final JPAQueryFactory queryFactory;
+    private final JPAQueryFactory jpaQueryFactory;
 
 
     @Override
@@ -35,7 +34,7 @@ public class PropertyCustomRepositoryImpl implements PropertyCustomRepository {
         CommonEnums.OrderBy orderBy = OrderBy.CREATED_AT_DESC;
         OrderSpecifier<?> orderSpecifier = PropertySpecifier.getOrderSpecifier(orderBy, property);
 
-        return queryFactory.select(property)
+        return jpaQueryFactory.select(property)
                 .from(property)
                 .innerJoin(property.propertySupplier, propertySupplier)
                 .leftJoin(property.translations, propertyTranslation)

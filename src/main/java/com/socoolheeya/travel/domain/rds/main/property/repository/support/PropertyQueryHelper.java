@@ -13,7 +13,7 @@ public class PropertyQueryHelper {
         BooleanBuilder filterBuilder = new BooleanBuilder();
 
         addLanguageFilters(propertySearchCriteria.getLanguage(), property, filterBuilder);
-        addIsEnabledFilters(propertySearchCriteria.getIsEnabled(), property, filterBuilder);
+        addIsActiveFilters(propertySearchCriteria.getIsActive(), property, filterBuilder);
         addSupplierFilters(propertySearchCriteria.getSuppliers(), property, filterBuilder);
 
         return filterBuilder;
@@ -29,11 +29,11 @@ public class PropertyQueryHelper {
         }
     }
 
-    private static void addIsEnabledFilters(boolean isEnabled, QPropertyEntity property, BooleanBuilder filterBuilder) {
-        if (isEnabled) {
-            filterBuilder.and(property.isEnabled.eq(true));
+    private static void addIsActiveFilters(boolean isActive, QPropertyEntity property, BooleanBuilder filterBuilder) {
+        if (isActive) {
+            filterBuilder.and(property.isActive.eq(true));
         } else {
-            filterBuilder.and(property.isEnabled.eq(false));
+            filterBuilder.and(property.isActive.eq(false));
         }
     }
 

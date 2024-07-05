@@ -59,7 +59,7 @@ public class PropertyImageEntity extends BaseEntity {
     PropertyEntity property;
 
     @Builder
-    public PropertyImageEntity(Long id, String name, String path, Integer sequence, PropertyEnums.ImageType type, PropertyEntity property) {
+    public PropertyImageEntity(Long id, String name, PropertyEnums.ImageType type, String path, Integer sequence, PropertyEntity property) {
         this.id = id;
         this.name = name;
         this.path = path;
@@ -69,8 +69,8 @@ public class PropertyImageEntity extends BaseEntity {
     }
 
     @Builder
-    public PropertyImageEntity(Long id, String name, String path, Integer sequence, PropertyEnums.ImageType type) {
-        this(id, name, path, sequence, type, null);
+    public PropertyImageEntity(Long id, String name, PropertyEnums.ImageType type, String path, Integer sequence) {
+        this(id, name, type, path, sequence, null);
     }
 
     @Transactional

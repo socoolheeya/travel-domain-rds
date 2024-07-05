@@ -5,10 +5,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface PropertyJpaRepository extends JpaRepository<PropertyEntity, Long>, PropertyCustomRepository {
+
+    @Override
+    @Query("SELECT p FROM PropertyEntity p LEFT JOIN FETCH p.propertySupplier WHERE p.id = :id")
+    Optional<PropertyEntity> findById(@Param("id") Long id);
+
     Page<PropertyEntity> findAllByNameContaining(String koName, Pageable pageable);
 
     @Query("SELECT p FROM PropertyEntity p JOIN FETCH p.translations t WHERE t.language = :language")

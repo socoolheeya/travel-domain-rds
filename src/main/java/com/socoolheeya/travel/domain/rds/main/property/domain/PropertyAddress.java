@@ -5,6 +5,6 @@ public record PropertyAddress(
         String address,
         String addressDetail,
         String zipCode,
-        Property property
+        Long propertyId
 ) {
 }

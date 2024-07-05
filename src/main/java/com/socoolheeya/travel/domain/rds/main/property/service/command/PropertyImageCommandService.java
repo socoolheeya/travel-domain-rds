@@ -1,7 +1,7 @@
 package com.socoolheeya.travel.domain.rds.main.property.service.command;
 
 import com.socoolheeya.travel.domain.rds.main.property.domain.PropertyImage;
-import com.socoolheeya.travel.domain.rds.main.property.mapper.PropertyMapper;
+import com.socoolheeya.travel.domain.rds.main.property.mapper.PropertyImageMapper;
 import com.socoolheeya.travel.domain.rds.main.property.repository.PropertyImageJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class PropertyImageCommandService {
 
     @Transactional
     public void updatePropertyImage(PropertyImage propertyImage) {
-        propertyImageJpaRepository.save(PropertyMapper::toEntity);
+        propertyImageJpaRepository.save(PropertyImageMapper.INSTANCE.toEntity(propertyImage));
     }
 
 }
