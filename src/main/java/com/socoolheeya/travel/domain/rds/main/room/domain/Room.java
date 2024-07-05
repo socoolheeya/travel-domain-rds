@@ -7,12 +7,13 @@ import java.util.List;
 public record Room(
         Long id,
         String name,
-        String description,
         Double roomSize,
         RoomEnums.RoomSizeUnit roomSizeUnit,
         RoomEnums.View view,
+        Boolean isSmoking,
         Boolean isSameDayBooking,
         Boolean isActive,
+        String cmsRoomId,
         RoomOccupancy roomOccupancy,
         List<RoomAmenity> roomAmenities,
         List<RoomEquipment> roomEquipments,
@@ -22,6 +23,8 @@ public record Room(
         List<RoomBlock> roomBlocks
 ) {
     public Room {
+        isSmoking = false;
         isSameDayBooking = false;
+        isActive = true;
     }
 }

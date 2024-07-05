@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,11 +20,9 @@ import org.hibernate.annotations.Comment;
 
 @Getter
 @Entity
-@Builder
 @Comment("객실 침대")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Table(name = "room_bed")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomBedEntity {
     @Id
@@ -75,4 +72,23 @@ public class RoomBedEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RoomEntity room;
+
+    @Builder
+    public RoomBedEntity(Long id, Integer singleBed, Integer doubleBed, Integer doubleSofaBed, Integer queenBed, Integer kingBed, Integer twinBed, Integer bunkBed, Integer sofaBed, Integer futonBed, Integer murphyBed, Integer queenMurphyBed, Integer ondol, Integer doubleBedOrTwinBed) {
+        this.id = id;
+        this.singleBed = singleBed;
+        this.doubleBed = doubleBed;
+        this.doubleSofaBed = doubleSofaBed;
+        this.queenBed = queenBed;
+        this.kingBed = kingBed;
+        this.twinBed = twinBed;
+        this.bunkBed = bunkBed;
+        this.sofaBed = sofaBed;
+        this.futonBed = futonBed;
+        this.murphyBed = murphyBed;
+        this.queenMurphyBed = queenMurphyBed;
+        this.ondol = ondol;
+        this.doubleBedOrTwinBed = doubleBedOrTwinBed;
+        this.room = null;
+    }
 }

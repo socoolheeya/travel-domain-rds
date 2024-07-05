@@ -5,6 +5,7 @@ import com.socoolheeya.travel.domain.rds.main.room.domain.Room;
 import com.socoolheeya.travel.domain.rds.main.room.entity.RoomEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE
         , uses = {RoomOccupancyMapper.class
@@ -15,4 +16,5 @@ import org.mapstruct.ReportingPolicy;
         , RoomImageMapper.class
         , RoomRatePlanMapper.class})
 public interface RoomMapper extends BaseEntityMapper<Room, RoomEntity> {
+    RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
 }

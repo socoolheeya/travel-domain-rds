@@ -1,11 +1,12 @@
 package com.socoolheeya.travel.domain.rds.main.room.entity;
 
 
-
+import com.socoolheeya.travel.domain.rds.common.converter.BooleanToStringConverter;
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
 import com.socoolheeya.travel.system.core.enums.RoomEnums;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,21 +19,21 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@Comment("객실")
 @Table(name = "room")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomEntity extends BaseEntity {
     @Id
@@ -44,29 +45,34 @@ public class RoomEntity extends BaseEntity {
     @Column(name = "name", columnDefinition = "varchar(500) comment '객실명'")
     String name;
 
-    @NotNull
-    @Column(name = "description", columnDefinition = "text comment '설명'")
-    String description;
-
     @Column(name = "room_size", columnDefinition = "double comment '객실 사이즈'")
     Double roomSize;
 
-    @Column(name = "room_size_unit", columnDefinition = "varchar(100) comment '객실 사이즈 단위'")
+    @Column(name = "room_size_unit", columnDefinition = "varchar(25) comment '객실 사이즈 단위'")
     RoomEnums.RoomSizeUnit roomSizeUnit;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(50) comment '전망'")
     RoomEnums.View view;
 
-    @ColumnDefault("false")
-    @Column(name = "is_same_day_booking", columnDefinition = "bool comment '당일 예약 가능 여부'")
-    boolean isSameDayBooking = false;
+    @ColumnDefault("'N'")
+    @Convert(converter = BooleanToStringConverter.class)
+    @Column(name = "smoking_yn", columnDefinition = "char(1) comment '흡연 가능 여부'")
+    Boolean isSmoking = false;
 
-    @ColumnDefault("false")
-    @Column(name = "is_active", columnDefinition = "bool comment '사용 여부'")
-    Boolean isActive = false;
+    @ColumnDefault("'N'")
+    @Column(name = "same_day_booking_yn", columnDefinition = "char(1) comment '당일 예약 가능 여부'")
+    Boolean isSameDayBooking = false;
 
-    @OneToOne(mappedBy = "room")
+    @ColumnDefault("'N'")
+    @Convert(converter = BooleanToStringConverter.class)
+    @Column(name = "use_yn", columnDefinition = "char(1) comment '사용 여부'")
+    Boolean isActive = true;
+
+    @Column(name = "cms_room_id", columnDefinition = "varchar(255) comment 'CMS 객실 ID'")
+    String cmsRoomId;
+
+    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY)
     RoomOccupancyEntity roomOccupancy;
 
     @OneToMany(mappedBy = "room")
@@ -81,23 +87,22 @@ public class RoomEntity extends BaseEntity {
     @OneToMany(mappedBy = "room")
     List<RoomImageEntity> images = new ArrayList<>();
 
-    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY)
-    RoomBedEntity roomBed;
+    @OneToMany(mappedBy = "room")
+    List<RoomTranslationEntity> roomTranslations = new ArrayList<>();
 
     @OneToMany(mappedBy = "room", orphanRemoval = true, cascade = CascadeType.ALL)
     List<RoomRatePlanEntity> roomRatePlans = new ArrayList<>();
 
-    @OneToMany(mappedBy = "room")
-    List<RoomBlockEntity> blocks = new ArrayList<>();
-
     @Builder
-    public RoomEntity(String name, String description, Double roomSize, RoomEnums.RoomSizeUnit roomSizeUnit, RoomEnums.View view, boolean isSameDayBooking, Boolean isActive) {
+    public RoomEntity(String name, Double roomSize, RoomEnums.RoomSizeUnit roomSizeUnit, RoomEnums.View view, Boolean isSmoking, Boolean isSameDayBooking, Boolean isActive, String cmsRoomId, RoomOccupancyEntity roomOccupancy) {
         this.name = name;
-        this.description = description;
         this.roomSize = roomSize;
         this.roomSizeUnit = roomSizeUnit;
         this.view = view;
+        this.isSmoking = isSmoking;
         this.isSameDayBooking = isSameDayBooking;
         this.isActive = isActive;
+        this.cmsRoomId = cmsRoomId;
+        this.roomOccupancy = roomOccupancy;
     }
 }
