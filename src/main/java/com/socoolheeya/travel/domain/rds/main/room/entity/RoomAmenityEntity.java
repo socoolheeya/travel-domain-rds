@@ -36,9 +36,10 @@ public class RoomAmenityEntity {
     Integer id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "amenity", columnDefinition = "varchar(20) comment '객실 어메니티'")
     RoomEnums.Amenity amenity;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "room_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RoomEntity room;
 }

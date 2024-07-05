@@ -29,6 +29,7 @@ public class RoomBlockEntity extends BaseEntity {
     @Column(name = "room_block_id", columnDefinition = "bigint comment '블록 ID'")
     Long id;
 
+    @NotNull
     @Column(name = "sales_day", columnDefinition = "date comment '판매일(yyyy-MM-dd)'")
     LocalDate salesDay;
 
@@ -36,26 +37,19 @@ public class RoomBlockEntity extends BaseEntity {
     @Column(name = "stock", columnDefinition = "int(5) comment '블럭 수량'")
     Integer stock = 0;
 
-    @Column(name = "is_enabled", columnDefinition = "bool default 0 comment '사용 여부'")
-    boolean isEnabled = false;
+    @Column(name = "is_active", columnDefinition = "bool default 0 comment '사용 여부'")
+    Boolean isActive = false;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "room_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RoomEntity room;
 
     @Builder
-    public RoomBlockEntity(LocalDate salesDay, Integer stock, boolean isEnabled) {
+    public RoomBlockEntity(LocalDate salesDay, Integer stock, Boolean isActive) {
         this.salesDay = salesDay;
         this.stock = stock;
-        this.isEnabled = isEnabled;
-    }
-
-    @Builder
-    public RoomBlockEntity(LocalDate salesDay) {
-        this.salesDay = salesDay;
-        this.stock = 0;
-        this.isEnabled = false;
+        this.isActive = isActive;
     }
 
 }

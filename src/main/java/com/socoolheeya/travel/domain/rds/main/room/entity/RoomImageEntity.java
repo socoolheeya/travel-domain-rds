@@ -40,26 +40,26 @@ public class RoomImageEntity extends BaseEntity {
 
     @Convert(converter = BooleanToStringConverter.class)
     @Column(name = "coverYn", columnDefinition = "char(1) comment '대표 이미지 여부'")
-    boolean isCover = false;
+    Boolean isCover = false;
 
     @Convert(converter = BooleanToStringConverter.class)
     @Column(name = "useYn", columnDefinition = "char(1) comment '사용여부'")
-    boolean isUsable = true;
+    Boolean isActive = true;
 
     @Column(name = "sequence", columnDefinition = "smallint comment '순서'")
     Integer sequence = 1;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "room_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RoomEntity room;
 
     @Builder
-    public RoomImageEntity(Long id, String name, String path, boolean isCover, boolean isUsable, Integer sequence) {
+    public RoomImageEntity(Long id, String name, String path, Boolean isCover, Boolean isActive, Integer sequence) {
         this.id = id;
         this.name = name;
         this.path = path;
         this.isCover = isCover;
-        this.isUsable = isUsable;
+        this.isActive = isActive;
         this.sequence = sequence;
         this.room = null;
     }

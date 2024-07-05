@@ -45,8 +45,8 @@ public class RoomRatePlanEntity implements Persistable<RoomRatePlanId> {
     @JoinColumn(name = "rate_plan_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RatePlanEntity ratePlan;
 
-    @Column(name = "is_enabled", columnDefinition = "bool comment '사용 여부'")
-    Boolean isEnabled = true;
+    @Column(name = "is_active", columnDefinition = "bool comment '사용 여부'")
+    Boolean isActive = true;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false, columnDefinition = "datetime comment '생성일'")
@@ -68,18 +68,10 @@ public class RoomRatePlanEntity implements Persistable<RoomRatePlanId> {
     }
 
     @Builder
-    public RoomRatePlanEntity (Boolean isEnabled, RoomEntity room, RatePlanEntity ratePlan) {
+    public RoomRatePlanEntity (Boolean isActive, RoomEntity room, RatePlanEntity ratePlan) {
         this.id = null;
-        this.isEnabled = isEnabled;
+        this.isActive = isActive;
         this.room = room;
         this.ratePlan = ratePlan;
-    }
-
-    @Builder
-    public RoomRatePlanEntity(RoomRatePlanId id, Boolean isEnabled) {
-        this.id = id;
-        this.isEnabled = isEnabled;
-        this.room = null;
-        this.ratePlan = null;
     }
 }

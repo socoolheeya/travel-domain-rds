@@ -6,10 +6,10 @@ import java.time.LocalDateTime;
 
 public record RoomRatePlan(
         RoomRatePlanId id,
-        Boolean isEnabled,
+        Boolean isActive,
         LocalDateTime createdAt
 ) {
     public RoomRatePlan {
-        isEnabled = true;
+        isActive = true;
     }
 }

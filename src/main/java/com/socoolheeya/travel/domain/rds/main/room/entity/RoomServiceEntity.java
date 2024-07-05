@@ -29,10 +29,11 @@ public class RoomServiceEntity {
     Integer id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "service", columnDefinition = "varchar(20) comment '객실 서비스'")
     RoomEnums.Service service;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "room_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RoomEntity room;
 
     @Builder

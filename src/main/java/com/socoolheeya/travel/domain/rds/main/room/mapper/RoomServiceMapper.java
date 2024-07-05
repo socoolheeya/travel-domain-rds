@@ -5,8 +5,7 @@ import com.socoolheeya.travel.domain.rds.main.room.entity.RoomServiceEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = "spring"
-        , unmappedTargetPolicy = ReportingPolicy.IGNORE
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE
         , uses = {RoomMapper.class})
 public interface RoomServiceMapper {
     RoomService toDomain(RoomServiceEntity entity);

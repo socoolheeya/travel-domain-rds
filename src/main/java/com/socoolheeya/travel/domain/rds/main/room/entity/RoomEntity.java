@@ -9,6 +9,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,6 +19,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -61,8 +63,8 @@ public class RoomEntity extends BaseEntity {
     boolean isSameDayBooking = false;
 
     @ColumnDefault("false")
-    @Column(name = "is_enabled", columnDefinition = "bool comment '사용 여부'")
-    boolean isEnabled = false;
+    @Column(name = "is_active", columnDefinition = "bool comment '사용 여부'")
+    Boolean isActive = false;
 
     @OneToOne(mappedBy = "room")
     RoomOccupancyEntity roomOccupancy;
@@ -79,9 +81,23 @@ public class RoomEntity extends BaseEntity {
     @OneToMany(mappedBy = "room")
     List<RoomImageEntity> images = new ArrayList<>();
 
+    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY)
+    RoomBedEntity roomBed;
+
     @OneToMany(mappedBy = "room", orphanRemoval = true, cascade = CascadeType.ALL)
     List<RoomRatePlanEntity> roomRatePlans = new ArrayList<>();
 
     @OneToMany(mappedBy = "room")
     List<RoomBlockEntity> blocks = new ArrayList<>();
+
+    @Builder
+    public RoomEntity(String name, String description, Double roomSize, RoomEnums.RoomSizeUnit roomSizeUnit, RoomEnums.View view, boolean isSameDayBooking, Boolean isActive) {
+        this.name = name;
+        this.description = description;
+        this.roomSize = roomSize;
+        this.roomSizeUnit = roomSizeUnit;
+        this.view = view;
+        this.isSameDayBooking = isSameDayBooking;
+        this.isActive = isActive;
+    }
 }
