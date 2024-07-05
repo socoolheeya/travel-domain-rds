@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 src/main/generated
+/build/tmp/compileJava/
 
 ### STS ###
 .apt_generated
