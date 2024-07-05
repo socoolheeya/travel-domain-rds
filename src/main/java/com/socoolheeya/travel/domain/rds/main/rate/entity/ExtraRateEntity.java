@@ -16,11 +16,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Comment;
 
 import java.math.BigDecimal;
 
 @Getter
 @Entity
+@Comment("추가요금")
 @Table(name = "extra_rate")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -43,7 +45,7 @@ public class ExtraRateEntity {
     BigDecimal excessAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rate_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "rate_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RateEntity rate;
 
     @Builder

@@ -29,7 +29,7 @@ import org.hibernate.annotations.Comment;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RatePlanCommissionOptionEntity {
     @Id
-    @Column(name = "property_id", columnDefinition = "bigint comment '커미션 옵션 ID'")
+    @Column(name = "rate_plan_id", columnDefinition = "bigint comment '커미션 옵션 ID'")
     Long id;
 
     @NotNull
@@ -53,7 +53,7 @@ public class RatePlanCommissionOptionEntity {
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rate_plan_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "rate_plan_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RatePlanEntity ratePlan;
 
 

@@ -15,13 +15,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.aspectj.runtime.internal.cflowstack.ThreadStackImpl11;
+import org.hibernate.annotations.Comment;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
 @Entity
+@Comment("일별 요금")
 @Table(name = "daily_rate")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -53,7 +54,7 @@ public class DailyRateEntity {
     BigDecimal commissionFee;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rate_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "rate_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RateEntity rate;
 
     @Builder

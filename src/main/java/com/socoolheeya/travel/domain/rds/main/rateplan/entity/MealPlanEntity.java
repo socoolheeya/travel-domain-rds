@@ -38,7 +38,7 @@ public class MealPlanEntity {
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rate_plan_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "rate_plan_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RatePlanEntity ratePlan;
 
     @Builder
@@ -47,15 +47,6 @@ public class MealPlanEntity {
         this.isBreakfast = isBreakfast;
         this.isLunch = isLunch;
         this.isDinner = isDinner;
-        this.ratePlan = null;
-    }
-
-    @Builder
-    public MealPlanEntity(Long id) {
-        this.id = id;
-        this.isBreakfast = false;
-        this.isLunch = false;
-        this.isDinner = false;
         this.ratePlan = null;
     }
 }

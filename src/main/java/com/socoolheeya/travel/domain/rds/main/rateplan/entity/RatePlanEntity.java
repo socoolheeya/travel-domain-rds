@@ -4,9 +4,8 @@ package com.socoolheeya.travel.domain.rds.main.rateplan.entity;
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
 import com.socoolheeya.travel.domain.rds.main.booking.entity.BookingEntity;
 import com.socoolheeya.travel.domain.rds.main.rate.entity.RateEntity;
-import com.socoolheeya.travel.domain.rds.main.rateplan.domain.RatePlan;
-import com.socoolheeya.travel.system.core.enums.RatePlanEnums;
 import com.socoolheeya.travel.domain.rds.main.room.entity.RoomRatePlanEntity;
+import com.socoolheeya.travel.system.core.enums.RatePlanEnums;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,6 +23,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Comment;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ import java.util.List;
 
 @Getter
 @Entity
+@Comment("요금제")
 @Table(name = "rate_plan")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -58,15 +59,15 @@ public class RatePlanEntity extends BaseEntity {
 
     @NotNull
     @Column(name = "is_early_checkin",  columnDefinition = "bool comment '얼리 체크인 가능 여부'")
-    boolean isEarlyCheckin = false;
+    Boolean isEarlyCheckin = false;
 
     @NotNull
     @Column(name = "is_smoking",  columnDefinition = "bool comment '흡연 가능 여부'")
-    boolean isSmoking = false;
+    Boolean isSmoking = false;
 
     @NotNull
     @Column(name = "is_static_rate",  columnDefinition = "bool comment '정적 요금제 여부'")
-    boolean isStaticRate = false;
+    Boolean isStaticRate = false;
 
     @Column(name = "min_stay", columnDefinition = "smallint(2) comment '투숙박수-최소'")
     Integer minStay;
@@ -82,7 +83,13 @@ public class RatePlanEntity extends BaseEntity {
     List<RoomRatePlanEntity> roomRatePlans = new ArrayList<>();
 
     @OneToMany(mappedBy = "ratePlan")
+    List<RatePlanSoldEntity> ratePlanSolds = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ratePlan")
     List<RateEntity> rates = new ArrayList<>();
+
+    @OneToOne(mappedBy = "ratePlan")
+    RatePlanCheckinEntity ratePlanCheckin;
 
     @OneToMany(mappedBy = "ratePlan")
     List<RatePlanCouponEntity> ratePlanCoupons = new ArrayList<>();
@@ -97,16 +104,7 @@ public class RatePlanEntity extends BaseEntity {
     BookingEntity booking;
 
     @Builder
-    public RatePlanEntity(Long id, String name, RatePlanEnums.RateClassification rateClassification, LocalTime checkinTime, LocalTime checkoutTime) {
-        this.id = id;
-        this.name = name;
-        this.rateClassification = rateClassification;
-        this.checkinTime = checkinTime;
-        this.checkoutTime = checkoutTime;
-    }
-
-    @Builder
-    public RatePlanEntity(Long id, String name, LocalTime checkinTime, LocalTime checkoutTime, RatePlanEnums.RateClassification rateClassification, boolean isEarlyCheckin, boolean isSmoking, boolean isStaticRate, Integer minStay, Integer maxStay, RatePlanEnums.Status status) {
+    public RatePlanEntity(Long id, String name, LocalTime checkinTime, LocalTime checkoutTime, RatePlanEnums.RateClassification rateClassification, Boolean isEarlyCheckin, Boolean isSmoking, Boolean isStaticRate, Integer minStay, Integer maxStay, RatePlanEnums.Status status) {
         this.id = id;
         this.name = name;
         this.checkinTime = checkinTime;
@@ -118,6 +116,7 @@ public class RatePlanEntity extends BaseEntity {
         this.minStay = minStay;
         this.maxStay = maxStay;
         this.status = status;
+        this.ratePlanCheckin = null;
         this.cancelPolicy = null;
         this.mealPlan = null;
         this.booking = null;
