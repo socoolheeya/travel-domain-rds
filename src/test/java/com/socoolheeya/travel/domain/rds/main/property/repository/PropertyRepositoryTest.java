@@ -1,8 +1,11 @@
 package com.socoolheeya.travel.domain.rds.main.property.repository;
 
 import com.socoolheeya.travel.domain.rds.configuration.MainDatasourceConfiguration;
+import com.socoolheeya.travel.domain.rds.configuration.QueryDslConfiguration;
 import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyEntity;
+import com.socoolheeya.travel.system.core.enums.PropertyEnums.Star;
 import jakarta.persistence.EntityManager;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
 
 import javax.sql.DataSource;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -24,7 +28,7 @@ import java.util.stream.IntStream;
 @DataJpaTest
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(MainDatasourceConfiguration.class)
+@Import(value = {MainDatasourceConfiguration.class, QueryDslConfiguration.class})
 class PropertyRepositoryTest {
 
     @Autowired
@@ -41,7 +45,7 @@ class PropertyRepositoryTest {
     @Transactional
     @Rollback(false)
     void insertTest() {
-        PropertyEntity propertyEntity = new PropertyEntity(null, "테스트 숙소", "숙소 설명" , true);
+        PropertyEntity propertyEntity = new PropertyEntity(null, "테스트 숙소", "숙소 설명" , Star.STAR1, LocalTime.now(), LocalTime.now(), true, true);
         propertyJpaRepository.save(propertyEntity);
     }
 
@@ -52,7 +56,8 @@ class PropertyRepositoryTest {
         StopWatch watch = new StopWatch();
         watch.start();
         IntStream.range(0, 1000)
-                .mapToObj(i -> new PropertyEntity(null, "테스트 숙소_" + i, "숙소 설명_" + i, true))
+                .mapToObj(i -> new PropertyEntity(null, "테스트 숙소_" + i, "숙소 설명_" + i,
+                        Star.STAR5, LocalTime.now(), LocalTime.now(), true, true))
                 .collect(Collectors.collectingAndThen(Collectors.toList(), propertyJpaRepository::saveAll));
 
         watch.stop();
@@ -66,7 +71,8 @@ class PropertyRepositoryTest {
         StopWatch watch = new StopWatch();
         watch.start();
         IntStream.range(0, 1000)
-                .mapToObj(i -> new PropertyEntity(null, "테스트 숙소_" + i, "숙소 설명_" + i, true))
+                .mapToObj(i -> new PropertyEntity(null, "테스트 숙소_" + i, "숙소 설명_" + i,
+                        Star.STAR1, LocalTime.now(), LocalTime.now(), true, true))
                 .forEach(propertyJpaRepository::save);
         watch.stop();
         System.out.println("saveForTest execution time: " + watch.getTotalTimeMillis());
@@ -78,7 +84,7 @@ class PropertyRepositoryTest {
     @Rollback(false)
     void syncSaveTest() {
         List<PropertyEntity> propertyEntities = IntStream.range(0, 1000)
-                .mapToObj(i -> new PropertyEntity(null, "테스트 숙소_" + i,"숙소 설명_" + i, true))
+                .mapToObj(i -> new PropertyEntity(null, "테스트 숙소_" + i,"숙소 설명_" + i, Star.STAR3, LocalTime.now(), LocalTime.now(), true, true))
                 .toList();
 
         StopWatch stopWatch = new StopWatch();
@@ -91,6 +97,13 @@ class PropertyRepositoryTest {
 
         stopWatch.stop();
         System.out.println("syncSaveTest execution time: " + stopWatch.getTotalTimeMillis());
+    }
+
+    @Test
+    void searchProperty() {
+        propertyJpaRepository.findById(1L).ifPresent(propertyEntity -> {
+            Assertions.assertNotNull(propertyEntity, "PropertyEntity is null");
+        });
     }
 
 }
