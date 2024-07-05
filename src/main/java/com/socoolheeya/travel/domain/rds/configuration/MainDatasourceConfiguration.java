@@ -1,12 +1,9 @@
 package com.socoolheeya.travel.domain.rds.configuration;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.zaxxer.hikari.HikariDataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -57,7 +54,7 @@ public class MainDatasourceConfiguration {
         em.setJpaVendorAdapter(vendorAdapter);
 
         Map<String,String> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", "create");
+        properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.dialect", "org.hibernate.dialect.MariaDBDialect");
         em.setJpaPropertyMap(properties);
 
