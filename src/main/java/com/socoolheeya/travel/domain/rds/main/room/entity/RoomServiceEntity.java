@@ -17,16 +17,18 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @Entity
+@Comment("객실 서비스")
 @Table(name = "room_service")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomServiceEntity {
     @Id
-    @Column(name = "room_service_id", columnDefinition = "int(6) comment '객실 서비스 ID'")
-    Integer id;
+    @Column(name = "room_service_id", columnDefinition = "bigint comment '객실 서비스 ID'")
+    Long id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "service", columnDefinition = "varchar(20) comment '객실 서비스'")
@@ -37,15 +39,8 @@ public class RoomServiceEntity {
     RoomEntity room;
 
     @Builder
-    public RoomServiceEntity(Integer id, RoomEnums.Service service) {
+    public RoomServiceEntity(Long id, RoomEnums.Service service) {
         this.id = id;
-        this.service = service;
-        this.room = null;
-    }
-
-    @Builder
-    public RoomServiceEntity(RoomEnums.Service service) {
-        this.id = null;
         this.service = service;
         this.room = null;
     }

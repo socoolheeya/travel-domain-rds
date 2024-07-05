@@ -10,16 +10,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.Comment;
 
 @Getter
 @Entity
-@Builder
-@AllArgsConstructor
+@Comment("객실 수용정보")
 @Table(name = "room_occupancy")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -28,6 +27,12 @@ public class RoomOccupancyEntity {
     @Id
     @Column(name = "room_occupancy_id", columnDefinition = "bigint comment '객실 수용정보 ID'")
     Long id;
+
+    @Column(columnDefinition = "smallint comment '총 인원 수'")
+    Integer total;
+
+    @Column(columnDefinition = "smallint comment '기준 인원 수'")
+    Integer standard;
 
     @Column(columnDefinition = "smallint comment '최소 인원 수'")
     Integer min;
@@ -44,4 +49,20 @@ public class RoomOccupancyEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RoomEntity room;
+
+    @OneToOne(mappedBy = "roomOccupancy", fetch = FetchType.LAZY)
+    RoomChildrenOccupancyEntity roomChildrenOccupancy;
+
+    @Builder
+    public RoomOccupancyEntity(Long id, Integer total, Integer standard, Integer min, Integer max, Integer adults, Integer children) {
+        this.id = id;
+        this.total = total;
+        this.standard = standard;
+        this.min = min;
+        this.max = max;
+        this.adults = adults;
+        this.children = children;
+        this.room = null;
+        this.roomChildrenOccupancy = null;
+    }
 }
