@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
@@ -32,6 +33,7 @@ import java.util.Set;
 
 @Getter
 @Entity
+@DynamicUpdate
 @Table(name = "property")
 @Comment("시설 정보")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -101,4 +103,9 @@ public class PropertyEntity extends BaseEntity {
         this.isActive = false;
     }
 
+    @Transactional
+    public void updatePropertyActive(Boolean isActive) {
+        this.isActive = isActive;
+
+    }
 }

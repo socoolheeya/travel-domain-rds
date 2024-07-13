@@ -35,6 +35,15 @@ public class PropertyQueryService {
     }
 
     /**
+     * 숙소 ID로 숙소 엔티티 검색
+     * @param propertyId 숙소 ID
+     * @return 숙소 엔티티
+     */
+    public Optional<PropertyEntity> searchPropertyEntityById(Long propertyId) {
+        return propertyJpaRepository.findById(propertyId);
+    }
+
+    /**
      * 검색 조건으로 숙소 목록 검색
      * @param searchCriteria 검색 조건
      * @param pageable 페이징
