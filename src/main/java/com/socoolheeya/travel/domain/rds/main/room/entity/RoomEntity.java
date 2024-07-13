@@ -3,17 +3,22 @@ package com.socoolheeya.travel.domain.rds.main.room.entity;
 
 import com.socoolheeya.travel.domain.rds.common.converter.BooleanToStringConverter;
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
+import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyEntity;
 import com.socoolheeya.travel.system.core.enums.RoomEnums;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -92,6 +97,10 @@ public class RoomEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "room", orphanRemoval = true, cascade = CascadeType.ALL)
     List<RoomRatePlanEntity> roomRatePlans = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    PropertyEntity property;
 
     @Builder
     public RoomEntity(String name, Double roomSize, RoomEnums.RoomSizeUnit roomSizeUnit, RoomEnums.View view, Boolean isSmoking, Boolean isSameDayBooking, Boolean isActive, String cmsRoomId, RoomOccupancyEntity roomOccupancy) {

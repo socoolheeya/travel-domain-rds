@@ -3,6 +3,7 @@ package com.socoolheeya.travel.domain.rds.main.property.entity;
 import com.socoolheeya.travel.domain.rds.common.converter.BooleanToStringConverter;
 import com.socoolheeya.travel.domain.rds.common.converter.LocalTimeConverter;
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
+import com.socoolheeya.travel.domain.rds.main.room.entity.RoomEntity;
 import com.socoolheeya.travel.system.core.enums.PropertyEnums;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -81,6 +82,9 @@ public class PropertyEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "property")
     Set<PropertyTranslationEntity> translations = new HashSet<>();
+
+    @OneToMany(mappedBy = "property")
+    List<RoomEntity> rooms = new ArrayList<>();
 
     @Builder
     public PropertyEntity(Long id, String name, String description, PropertyEnums.Star star, LocalTime checkInTime, LocalTime checkOutTime, Boolean isTodayBooking, Boolean isActive) {
