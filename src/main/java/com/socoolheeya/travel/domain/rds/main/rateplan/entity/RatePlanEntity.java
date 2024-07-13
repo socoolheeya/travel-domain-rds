@@ -88,20 +88,8 @@ public class RatePlanEntity extends BaseEntity {
     @OneToMany(mappedBy = "ratePlan")
     List<RateEntity> rates = new ArrayList<>();
 
-    @OneToOne(mappedBy = "ratePlan")
-    RatePlanCheckinEntity ratePlanCheckin;
-
     @OneToMany(mappedBy = "ratePlan")
     List<RatePlanCouponEntity> ratePlanCoupons = new ArrayList<>();
-
-    @OneToOne(mappedBy = "ratePlan")
-    CancelPolicyEntity cancelPolicy;
-
-    @OneToOne(mappedBy = "ratePlan")
-    MealPlanEntity mealPlan;
-
-    @OneToOne(mappedBy = "ratePlan")
-    BookingEntity booking;
 
     @Builder
     public RatePlanEntity(Long id, String name, LocalTime checkinTime, LocalTime checkoutTime, RatePlanEnums.RateClassification rateClassification, Boolean isEarlyCheckin, Boolean isSmoking, Boolean isStaticRate, Integer minStay, Integer maxStay, RatePlanEnums.Status status) {
@@ -116,10 +104,6 @@ public class RatePlanEntity extends BaseEntity {
         this.minStay = minStay;
         this.maxStay = maxStay;
         this.status = status;
-        this.ratePlanCheckin = null;
-        this.cancelPolicy = null;
-        this.mealPlan = null;
-        this.booking = null;
     }
 
 

@@ -19,27 +19,27 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+}
 
-    //def generated = layout.buildDirectory.dir('generated/sources/querydsl')
-    def mapstructGenerated = layout.buildDirectory.dir('generated/sources/annotationProcessor/java/main')
+//def generated = layout.buildDirectory.dir('generated/sources/querydsl')
+def mapstructGenerated = layout.buildDirectory.dir('generated/sources/annotationProcessor/java/main')
 
-    tasks.withType(JavaCompile).configureEach {
-        //options.getGeneratedSourceOutputDirectory().set(file(generated))
-        options.annotationProcessorPath = configurations.annotationProcessor
-        options.compilerArgs += [
-                '-s', file(mapstructGenerated).absolutePath
-        ]
-    }
+tasks.withType(JavaCompile).configureEach {
+    //options.getGeneratedSourceOutputDirectory().set(file(generated))
+    options.annotationProcessorPath = configurations.annotationProcessor
+    options.compilerArgs += [
+            '-s', file(mapstructGenerated).absolutePath
+    ]
+}
 
-    sourceSets {
-        //main.java.srcDirs += [ generated ]
-        main.java.srcDirs += [ mapstructGenerated ]
-    }
+sourceSets {
+    //main.java.srcDirs += [ generated ]
+    main.java.srcDirs += [ mapstructGenerated ]
+}
 
 //    clean {
 //        delete file(generated)
 //    }
-}
 
 compileJava {
     options.compilerArgs += [

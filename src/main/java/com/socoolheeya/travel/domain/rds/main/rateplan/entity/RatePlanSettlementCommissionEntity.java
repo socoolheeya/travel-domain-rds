@@ -1,18 +1,20 @@
-package com.socoolheeya.travel.domain.rds.main.property.entity;
+package com.socoolheeya.travel.domain.rds.main.rateplan.entity;
 
 import com.socoolheeya.travel.domain.rds.common.converter.BooleanToStringConverter;
 import com.socoolheeya.travel.domain.rds.common.converter.CommissionPriceTypeConverter;
+import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
 import com.socoolheeya.travel.system.core.enums.PropertyEnums;
-import com.socoolheeya.travel.system.core.enums.PropertyEnums.CommissionPriceType;
+import com.socoolheeya.travel.system.core.enums.RatePlanEnums;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -27,21 +29,22 @@ import java.math.BigDecimal;
 
 @Getter
 @Entity
-@Comment("숙소 정산 커미션 정보")
+@Comment("요금제 정산 커미션 정보")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "property_settlement_commission")
+@Table(name = "rate_plan_settlement_commission")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PropertySettlementCommissionEntity {
+public class RatePlanSettlementCommissionEntity extends BaseEntity {
     @Id
-    @Column(name = "property_settlement_id", columnDefinition = "bigint comment '숙소 정산 커미션 ID'")
+    @Column(name = "rate_plan_settlement_id", columnDefinition = "bigint comment '숙소 정산 커미션 ID'")
     Long id;
 
     @Column(name ="commission_type", columnDefinition = "varchar(255) comment '수수료 타입'")
     String commissionType;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "commission_mode", columnDefinition = "varchar(255) comment '수수료 모드'")
-    String commissionMode;
+    RatePlanEnums.CommissionMode commissionMode;
 
     @Column(name = "commission", columnDefinition = "decimal(10,2) comment '수수료'")
     BigDecimal commission;
@@ -55,6 +58,10 @@ public class PropertySettlementCommissionEntity {
     @Convert(converter = CommissionPriceTypeConverter.class)
     @Column(name = "commission_price_type", columnDefinition = "varchar(10) comment '커미션 요금 타입'")
     PropertyEnums.CommissionPriceType commissionPriceType;
+
+    @Convert(converter = BooleanToStringConverter.class)
+    @Column(name = "is_additional_charge", columnDefinition = "char(1) comment '추가 요금 여부'")
+    Boolean isAdditionalCharge;
 
     @Convert(converter = BooleanToStringConverter.class)
     @Column(name = "sunday", columnDefinition = "char(1) comment '일요일 여부'")
@@ -84,13 +91,13 @@ public class PropertySettlementCommissionEntity {
     @Column(name = "saturday", columnDefinition = "char(1) comment '토요일 여부'")
     Boolean saturday;
 
-    @MapsId
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "property_settlement_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    PropertySettlementEntity propertySettlement;
+    @JoinColumn(name = "rate_plan_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    RatePlanEntity ratePlan;
 
     @Builder
-    public PropertySettlementCommissionEntity(Long id, String commissionType, String commissionMode, BigDecimal commission, BigDecimal weeklyCommission, BigDecimal weekendCommission, CommissionPriceType commissionPriceType, Boolean sunday, Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday, Boolean saturday) {
+    public RatePlanSettlementCommissionEntity(Long id, String commissionType, RatePlanEnums.CommissionMode commissionMode, BigDecimal commission, BigDecimal weeklyCommission, BigDecimal weekendCommission, PropertyEnums.CommissionPriceType commissionPriceType, Boolean isAdditionalCharge, Boolean sunday, Boolean monday, Boolean tuesday, Boolean wednesday, Boolean thursday, Boolean friday, Boolean saturday) {
+        super();
         this.id = id;
         this.commissionType = commissionType;
         this.commissionMode = commissionMode;
@@ -98,6 +105,7 @@ public class PropertySettlementCommissionEntity {
         this.weeklyCommission = weeklyCommission;
         this.weekendCommission = weekendCommission;
         this.commissionPriceType = commissionPriceType;
+        this.isAdditionalCharge = isAdditionalCharge;
         this.sunday = sunday;
         this.monday = monday;
         this.tuesday = tuesday;
@@ -106,5 +114,4 @@ public class PropertySettlementCommissionEntity {
         this.friday = friday;
         this.saturday = saturday;
     }
-
 }
