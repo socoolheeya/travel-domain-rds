@@ -1,8 +1,10 @@
 package com.socoolheeya.travel.domain.rds.main.room.entity;
 
+import com.socoolheeya.travel.domain.rds.common.converter.BooleanToStringConverter;
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
@@ -39,7 +41,8 @@ public class RoomBlockEntity extends BaseEntity {
     @Column(name = "stock", columnDefinition = "int(5) comment '블럭 수량'")
     Integer stock = 0;
 
-    @Column(name = "is_active", columnDefinition = "bool default 0 comment '사용 여부'")
+    @Convert(converter = BooleanToStringConverter.class)
+    @Column(name = "active_yn", columnDefinition = "char(1) comment '사용 여부'")
     Boolean isActive = false;
 
     @NotNull
@@ -48,10 +51,11 @@ public class RoomBlockEntity extends BaseEntity {
     RoomEntity room;
 
     @Builder
-    public RoomBlockEntity(LocalDate salesDay, Integer stock, Boolean isActive) {
+    public RoomBlockEntity(LocalDate salesDay, Integer stock, Boolean isActive, RoomEntity room) {
         this.salesDay = salesDay;
         this.stock = stock;
         this.isActive = isActive;
+        this.room = room;
     }
 
 }

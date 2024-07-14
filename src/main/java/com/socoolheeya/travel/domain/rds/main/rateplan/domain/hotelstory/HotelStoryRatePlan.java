@@ -1,6 +1,6 @@
 package com.socoolheeya.travel.domain.rds.main.rateplan.domain.hotelstory;
 
-public record HotelstoryRatePlan(
+public record HotelStoryRatePlan(
         Long roomTypeId,
         Long ratePlanId,
         String ratePlanName,

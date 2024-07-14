@@ -1,13 +1,14 @@
 package com.socoolheeya.travel.domain.rds.main.rateplan.entity;
 
 
+import com.socoolheeya.travel.domain.rds.common.converter.BooleanToStringConverter;
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
-import com.socoolheeya.travel.domain.rds.main.booking.entity.BookingEntity;
 import com.socoolheeya.travel.domain.rds.main.rate.entity.RateEntity;
 import com.socoolheeya.travel.domain.rds.main.room.entity.RoomRatePlanEntity;
 import com.socoolheeya.travel.system.core.enums.RatePlanEnums;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,7 +16,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -79,6 +79,10 @@ public class RatePlanEntity extends BaseEntity {
     @Column(name = "status", columnDefinition = "varchar(30) comment '요금제 상태'")
     RatePlanEnums.Status status;
 
+    @Convert(converter = BooleanToStringConverter.class)
+    @Column(name = "active_yn", columnDefinition = "char(1) comment '요금제 사용 가능 여부'")
+    Boolean isActive;
+
     @OneToMany(mappedBy = "ratePlan", orphanRemoval = true, cascade = CascadeType.ALL)
     List<RoomRatePlanEntity> roomRatePlans = new ArrayList<>();
 
@@ -92,7 +96,7 @@ public class RatePlanEntity extends BaseEntity {
     List<RatePlanCouponEntity> ratePlanCoupons = new ArrayList<>();
 
     @Builder
-    public RatePlanEntity(Long id, String name, LocalTime checkinTime, LocalTime checkoutTime, RatePlanEnums.RateClassification rateClassification, Boolean isEarlyCheckin, Boolean isSmoking, Boolean isStaticRate, Integer minStay, Integer maxStay, RatePlanEnums.Status status) {
+    public RatePlanEntity(Long id, String name, LocalTime checkinTime, LocalTime checkoutTime, RatePlanEnums.RateClassification rateClassification, Boolean isEarlyCheckin, Boolean isSmoking, Boolean isStaticRate, Integer minStay, Integer maxStay, RatePlanEnums.Status status, Boolean isActive) {
         this.id = id;
         this.name = name;
         this.checkinTime = checkinTime;
@@ -104,6 +108,7 @@ public class RatePlanEntity extends BaseEntity {
         this.minStay = minStay;
         this.maxStay = maxStay;
         this.status = status;
+        this.isActive = isActive;
     }
 
 
