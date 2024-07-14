@@ -1,4 +1,4 @@
-package com.socoolheeya.travel.domain.rds.common.converter;
+package com.socoolheeya.travel.domain.rds.main.property.converter;
 
 import com.socoolheeya.travel.system.core.enums.PropertyEnums;
 import com.socoolheeya.travel.system.core.enums.PropertyEnums.CommissionPriceType;

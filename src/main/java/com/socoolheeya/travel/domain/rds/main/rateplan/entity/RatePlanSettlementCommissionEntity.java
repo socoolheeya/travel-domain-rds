@@ -1,7 +1,7 @@
 package com.socoolheeya.travel.domain.rds.main.rateplan.entity;
 
 import com.socoolheeya.travel.domain.rds.common.converter.BooleanToStringConverter;
-import com.socoolheeya.travel.domain.rds.common.converter.CommissionPriceTypeConverter;
+import com.socoolheeya.travel.domain.rds.main.property.converter.CommissionPriceTypeConverter;
 import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
 import com.socoolheeya.travel.system.core.enums.PropertyEnums;
 import com.socoolheeya.travel.system.core.enums.RatePlanEnums;
