@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class PropertyCommandService {
@@ -17,20 +15,14 @@ public class PropertyCommandService {
     private final PropertyJpaRepository propertyJpaRepository;
 
     @Transactional
-    public Property saveProperty(Property property) {
-        return Optional.of(propertyJpaRepository.save(PropertyMapper.INSTANCE.toEntity(property)))
-                .map(PropertyMapper.INSTANCE::toDomain)
-                .orElse(Property.builder().build());
+    public PropertyEntity saveProperty(Property property) {
+        return propertyJpaRepository.save(PropertyMapper.INSTANCE.toEntity(property));
     }
 
     @Transactional
     public void removeProperty(Long propertyId) {
-        Optional<PropertyEntity> optional = propertyJpaRepository.findById(propertyId);
-
-        if(optional.isPresent()) {
-            PropertyEntity entity = optional.get();
-            entity.inActive();
-        }
+        propertyJpaRepository.findById(propertyId)
+                .ifPresent(PropertyEntity::inActive);
     }
 
 }

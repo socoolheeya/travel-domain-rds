@@ -1,8 +1,6 @@
 package com.socoolheeya.travel.domain.rds.main.property.service.query;
 
-import com.socoolheeya.travel.domain.rds.main.property.domain.Property;
 import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyEntity;
-import com.socoolheeya.travel.domain.rds.main.property.mapper.PropertyMapper;
 import com.socoolheeya.travel.domain.rds.main.property.repository.PropertyJpaRepository;
 import com.socoolheeya.travel.system.core.model.param.PropertySearchCriteria;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +26,8 @@ public class PropertyQueryService {
      * @param propertyId 숙소 ID
      * @return 숙소
      */
-    public Optional<Property> searchPropertyById(Long propertyId) {
-        return propertyJpaRepository.findById(propertyId)
-                .map(PropertyMapper.INSTANCE::toDomain);
+    public Optional<PropertyEntity> searchPropertyById(Long propertyId) {
+        return propertyJpaRepository.findById(propertyId);
     }
 
     /**
@@ -49,20 +45,20 @@ public class PropertyQueryService {
      * @param pageable 페이징
      * @return 숙소 목록
      */
-    public Page<Property> searchProperties(PropertySearchCriteria searchCriteria, Pageable pageable) {
+    public Page<PropertyEntity> searchProperties(PropertySearchCriteria searchCriteria, Pageable pageable) {
         if (searchCriteria == null) {
-            return propertyJpaRepository.findAll(pageable)
-                    .map(PropertyMapper.INSTANCE::toDomain);
+            return propertyJpaRepository.findAll(pageable);
         }
 
         long totalCount = propertyJpaRepository.count();
 
-        List<Property> properties = propertyJpaRepository.getFilteredAndSortedProperties(searchCriteria, pageable)
-                .stream()
-                .map(PropertyMapper.INSTANCE::toDomain)
-                .toList();
+        List<PropertyEntity> properties = propertyJpaRepository.getFilteredAndSortedProperties(searchCriteria, pageable);
 
         return new PageImpl<>(properties, PageRequest.of(pageable.getPageNumber(), properties.size()), totalCount);
+    }
+
+    public List<PropertyEntity> searchPropertiesByPropertySupplierId(Long supplierId) {
+        return propertyJpaRepository.findPropertiesByPropertySupplierId(supplierId);
     }
 
 }

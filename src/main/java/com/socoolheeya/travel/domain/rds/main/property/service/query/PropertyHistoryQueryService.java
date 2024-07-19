@@ -1,6 +1,7 @@
 package com.socoolheeya.travel.domain.rds.main.property.service.query;
 
 import com.socoolheeya.travel.domain.rds.main.property.domain.PropertyHistory;
+import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyHistoryEntity;
 import com.socoolheeya.travel.domain.rds.main.property.mapper.PropertyHistoryMapper;
 import com.socoolheeya.travel.domain.rds.main.property.repository.PropertyHistoryJpaRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +18,12 @@ public class PropertyHistoryQueryService {
 
     private final PropertyHistoryMapper propertyHistoryMapper;
 
-    public Optional<PropertyHistory> getLatestPropertyHistory(Long propertyId) {
-        return propertyHistoryJpaRepository.findTopByPropertyIdOrderByIdDesc(propertyId)
-                .map(PropertyHistoryMapper.INSTANCE::toDomain);
+    public Optional<PropertyHistoryEntity> getLatestPropertyHistory(Long propertyId) {
+        return propertyHistoryJpaRepository.findTopByPropertyIdOrderByIdDesc(propertyId);
 
     }
 
-    public Optional<PropertyHistory> getPropertyHistory(Long id) {
-        return propertyHistoryJpaRepository.findById(id)
-                .map(PropertyHistoryMapper.INSTANCE::toDomain);
+    public Optional<PropertyHistoryEntity> getPropertyHistory(Long id) {
+        return propertyHistoryJpaRepository.findById(id);
     }
 }
