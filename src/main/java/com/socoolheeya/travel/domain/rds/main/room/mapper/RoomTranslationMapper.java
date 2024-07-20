@@ -5,6 +5,6 @@ import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {RoomMapper.class})
-public interface RoomServiceMapper {
-    RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
+public interface RoomTranslationMapper {
+    RoomTranslationMapper INSTANCE = Mappers.getMapper(RoomTranslationMapper.class);
 }

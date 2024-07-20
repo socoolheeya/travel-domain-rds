@@ -6,10 +6,11 @@ import com.socoolheeya.travel.domain.rds.main.booking.entity.BookingFaxEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE
-        , uses = {BookingMapper.class})
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, uses = {BookingMapper.class})
 public interface BookingFaxMapper extends BaseEntityMapper<BookingFax, BookingFaxEntity> {
+    BookingFaxMapper INSTANCE = Mappers.getMapper(BookingFaxMapper.class);
 
     @Mapping(source = "entity.booking.id", target = "bookingId")
     BookingFax toDomain(BookingFaxEntity entity);

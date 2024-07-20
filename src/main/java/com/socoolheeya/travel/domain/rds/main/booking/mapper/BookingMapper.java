@@ -10,6 +10,7 @@ import com.socoolheeya.travel.domain.rds.main.rateplan.mapper.RatePlanMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
+import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE
         , uses = {RatePlanMapper.class
@@ -18,6 +19,8 @@ import org.mapstruct.ReportingPolicy;
         , BookingOccupancyMapper.class
         , DailyRateMapper.class, ExtraRateMapper.class})
 public interface BookingMapper extends BaseEntityMapper<Booking, BookingEntity> {
+    BookingMapper INSTANCE = Mappers.getMapper(BookingMapper.class);
+
     @Mapping(source = "entity.ratePlan.id", target = "ratePlanId")
     @Mapping(source = "entity.voucher.id", target = "voucherId")
     @Mapping(source = "entity.payment.id", target = "paymentId")

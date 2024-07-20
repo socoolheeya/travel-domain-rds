@@ -1,8 +1,8 @@
 package com.socoolheeya.travel.domain.rds.main.booking.entity;
 
+import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
 import com.socoolheeya.travel.domain.rds.main.booking.entity.payment.PaymentEntity;
 import com.socoolheeya.travel.domain.rds.main.booking.enums.BookingEnums;
-import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
 import com.socoolheeya.travel.domain.rds.main.rateplan.entity.RatePlanEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -21,12 +21,10 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,16 +63,6 @@ public class BookingEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "booking")
     List<BookingOccupancyEntity> bookingOccupancies = new ArrayList<>();
-
-    @Builder
-    public BookingEntity(Long id, BookingEnums.Status bookingStatus, String refBookingNo) {
-        this.id = id;
-        this.bookingStatus = bookingStatus;
-        this.refBookingNo = refBookingNo;
-        this.ratePlan = null;
-        this.voucher = null;
-        this.payment = null;
-    }
 
     @Builder
     public BookingEntity(Long id, BookingEnums.Status bookingStatus, String refBookingNo, RatePlanEntity ratePlan, VoucherEntity voucher, PaymentEntity payment) {

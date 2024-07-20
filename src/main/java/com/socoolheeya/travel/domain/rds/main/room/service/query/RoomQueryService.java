@@ -26,7 +26,7 @@ public class RoomQueryService {
         return roomJpaRepository.findByPropertyId(propertyId)
                 .stream()
                 .map(RoomMapper.INSTANCE::toDomain)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 
