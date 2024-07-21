@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -38,4 +39,12 @@ public class BookingChildPlanEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "occupancy_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     BookingOccupancyEntity occupancy;
+
+    @Builder
+    public BookingChildPlanEntity(Long id, String name, Integer age, BookingOccupancyEntity occupancy) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.occupancy = occupancy;
+    }
 }
