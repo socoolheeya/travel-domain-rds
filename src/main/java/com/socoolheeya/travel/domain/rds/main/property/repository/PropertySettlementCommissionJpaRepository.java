@@ -10,6 +10,9 @@ import java.util.Optional;
 @Repository
 public interface PropertySettlementCommissionJpaRepository extends JpaRepository<PropertySettlementCommissionEntity, Long> {
 
-    @Query("SELECT psc FROM PropertySettlementCommissionEntity psc JOIN FETCH psc.propertySettlement ps JOIN FETCH ps.property p WHERE p.id = :propertyId")
+    @Query("SELECT c FROM PropertySettlementCommissionEntity c " +
+            "JOIN FETCH c.propertySettlement " +
+            "JOIN FETCH c.propertySettlement.property " +
+            "WHERE c.propertySettlement.property.id = :propertyId")
     Optional<PropertySettlementCommissionEntity> findByPropertyId(Long propertyId);
 }

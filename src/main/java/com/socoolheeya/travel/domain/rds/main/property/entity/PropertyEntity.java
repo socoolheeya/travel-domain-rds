@@ -64,7 +64,11 @@ public class PropertyEntity extends BaseEntity {
     @Column(name = "check_out_time", columnDefinition = "varchar(5) comment '체크아웃 시간'")
     LocalTime checkOutTime;
 
-    @Column(name = "is_today_booking", columnDefinition = "char(1) comment '숙소 타입'")
+    @Column(name = "country_code", columnDefinition = "varchar(5) comment '국가 코드'")
+    String countryCode;
+
+    @Convert(converter = BooleanToStringConverter.class)
+    @Column(name = "is_today_booking", columnDefinition = "char(1) comment '당일 예약 여부'")
     Boolean isTodayBooking;
 
     @Convert(converter = BooleanToStringConverter.class)
@@ -87,13 +91,14 @@ public class PropertyEntity extends BaseEntity {
     List<RoomEntity> rooms = new ArrayList<>();
 
     @Builder
-    public PropertyEntity(Long id, String name, String description, PropertyEnums.Star star, LocalTime checkInTime, LocalTime checkOutTime, Boolean isTodayBooking, Boolean isActive) {
+    public PropertyEntity(Long id, String name, String description, PropertyEnums.Star star, LocalTime checkInTime, LocalTime checkOutTime, String countryCode, Boolean isTodayBooking, Boolean isActive) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.star = star;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
+        this.countryCode = countryCode;
         this.isTodayBooking = isTodayBooking;
         this.isActive = isActive;
         this.images = null;

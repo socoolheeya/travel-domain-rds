@@ -13,13 +13,16 @@ public record Property(
         String description,
         PropertyEnums.Star star,
         Boolean isActive,
+        String countryCode,
         List<PropertyImage> images,
         PropertyAddress address,
         PropertyContact contact,
         PropertyLocation location,
         List<PropertyContract> propertyContracts,
         PropertySupplier propertySupplier,
-        List<PropertyTranslation> propertyTranslations
+        List<PropertyTranslation> propertyTranslations,
+        PropertySettlement propertySettlement,
+        PropertySettlementCommission propertySettlementCommission
 ) {
     public Property {
         isActive = true;
