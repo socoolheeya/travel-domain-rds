@@ -1,6 +1,5 @@
 package com.socoolheeya.travel.domain.rds.main.property.repository;
 
-import com.socoolheeya.travel.domain.rds.configuration.MainDatasourceConfiguration;
 import com.socoolheeya.travel.domain.rds.configuration.QueryDslConfiguration;
 import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyEntity;
 import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyImageEntity;
@@ -26,7 +25,7 @@ import java.util.stream.IntStream;
 @DataJpaTest
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(value = {MainDatasourceConfiguration.class, QueryDslConfiguration.class})
+@Import(value = {QueryDslConfiguration.class})
 class PropertyImageRepositoryTest {
 
     @Autowired

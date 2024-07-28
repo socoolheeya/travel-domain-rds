@@ -1,6 +1,5 @@
 package com.socoolheeya.travel.domain.rds.main.property.repository;
 
-import com.socoolheeya.travel.domain.rds.configuration.MainDatasourceConfiguration;
 import com.socoolheeya.travel.domain.rds.configuration.QueryDslConfiguration;
 import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyAuthenticationEntity;
 import com.socoolheeya.travel.domain.rds.main.property.entity.PropertyEntity;
@@ -22,7 +21,7 @@ import java.util.Optional;
 @DataJpaTest
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(value = {MainDatasourceConfiguration.class, QueryDslConfiguration.class})
+@Import(value = {QueryDslConfiguration.class})
 class PropertyAuthenticationJpaRepositoryTest {
 
     @Autowired
@@ -39,9 +38,9 @@ class PropertyAuthenticationJpaRepositoryTest {
 
     @Test
     @Transactional
-    @Rollback(false)
+    @Rollback
     void insertTest() {
-        PropertyEntity propertyEntity = propertyJpaRepository.findById(3L)
+        PropertyEntity propertyEntity = propertyJpaRepository.findById(5L)
                 .orElseThrow(() -> new NoSuchElementException("PropertyEntity not found"));
         PropertyAuthenticationEntity propertyAuthentication = new PropertyAuthenticationEntity(null, "banana", "tree1234", propertyEntity);
         PropertyAuthenticationEntity saved = propertyAuthenticationJpaRepository.save(propertyAuthentication);
