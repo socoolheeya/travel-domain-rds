@@ -22,11 +22,11 @@ spring:
         format_sql: true
         show_sql: true
         hbm2ddl:
-          auto: update
+          auto: none
         dialect: org.hibernate.dialect.MariaDBDialect
   transaction:
     default-timeout: 5
     rollback-on-commit-failure: true
 logging:
   level:
-    org.hibernate.sql: debug
+    org.hibernate.sql: error

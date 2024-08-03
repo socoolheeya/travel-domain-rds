@@ -24,6 +24,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,8 +37,10 @@ import java.util.List;
 
 @Getter
 @Entity
+@Builder
 @Comment("객실")
 @Table(name = "room")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomEntity extends BaseEntity {
@@ -101,17 +104,4 @@ public class RoomEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "property_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     PropertyEntity property;
-
-    @Builder
-    public RoomEntity(String name, Double roomSize, RoomEnums.RoomSizeUnit roomSizeUnit, RoomEnums.View view, Boolean isSmoking, Boolean isSameDayBooking, Boolean isActive, String cmsRoomId, RoomOccupancyEntity roomOccupancy) {
-        this.name = name;
-        this.roomSize = roomSize;
-        this.roomSizeUnit = roomSizeUnit;
-        this.view = view;
-        this.isSmoking = isSmoking;
-        this.isSameDayBooking = isSameDayBooking;
-        this.isActive = isActive;
-        this.cmsRoomId = cmsRoomId;
-        this.roomOccupancy = roomOccupancy;
-    }
 }
