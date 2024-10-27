@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/travel?useSSL=false
+    url: jdbc:mysql://localhost:3307/travel-accommodation?useSSL=false
     username: root
     password: 1234
     hikari:
@@ -23,7 +23,7 @@ spring:
         show_sql: true
         hbm2ddl:
           auto: update
-        dialect: org.hibernate.dialect.MariaDBDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
   transaction:
     default-timeout: 5
     rollback-on-commit-failure: true

@@ -1,5 +1,6 @@
 package com.socoolheeya.travel.domain.rds.main.rate.entity;
 
+import com.socoolheeya.travel.domain.rds.common.entity.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.ConstraintMode;
 import jakarta.persistence.Entity;
@@ -11,10 +12,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Comment;
 
 import java.math.BigDecimal;
@@ -23,10 +25,12 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @Comment("일별 요금")
+@SuperBuilder
 @Table(name = "daily_rate")
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DailyRateEntity {
+public class DailyRateEntity extends BaseEntity {
 
     @Id
     @Column(name = "daily_rate_id", columnDefinition = "bigint comment '일별 요금 ID'")
@@ -56,28 +60,4 @@ public class DailyRateEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rate_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     RateEntity rate;
-
-    @Builder
-    public DailyRateEntity(Long id, LocalDate salesDay, BigDecimal originPrice, BigDecimal sellingPrice, BigDecimal depositPrice, BigDecimal commission, BigDecimal commissionFee, RateEntity rate) {
-        this.id = id;
-        this.salesDay = salesDay;
-        this.originPrice = originPrice;
-        this.sellingPrice = sellingPrice;
-        this.depositPrice = depositPrice;
-        this.commission = commission;
-        this.commissionFee = commissionFee;
-        this.rate = rate;
-    }
-
-    @Builder
-    public DailyRateEntity(Long id, LocalDate salesDay, BigDecimal originPrice, BigDecimal sellingPrice, BigDecimal depositPrice, BigDecimal commission, BigDecimal commissionFee) {
-        this.id = id;
-        this.salesDay = salesDay;
-        this.originPrice = originPrice;
-        this.sellingPrice = sellingPrice;
-        this.depositPrice = depositPrice;
-        this.commission = commission;
-        this.commissionFee = commissionFee;
-        this.rate = null;
-    }
 }
